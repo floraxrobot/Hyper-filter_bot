@@ -3,7 +3,7 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 import logging
 
 # Replace 'YOUR_API_TOKEN' with the actual token from BotFather
-API_TOKEN = '8003647318:AAEkO9HH-eIUcGTqmzwXn6OBqP6Tnx1dDIk'
+API_TOKEN = '7163289613:AAEZaSCRfujwcA387HiLx3E50EymwTi4amI'
 
 # Dictionary to store media filters in the format: {keyword: {"image": file_id, "title": title, "links": [(label, url), ...]}}
 media_filters = {}
@@ -31,12 +31,12 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     
     # Inline buttons setup
     buttons = [
-        [InlineKeyboardButton("➕Let's Roll ➕", url="http://t.me/Allfilter_robot?startgroup=botstart")],
+        [InlineKeyboardButton("➕Let's Roll ➕", url="http://t.me/HYPERXMUSICROBOT?startgroup=botstart")],
         [
-            InlineKeyboardButton("Support", url="https://t.me/anime_in_hindi_dubbed_all_sst"),
-            InlineKeyboardButton("Chat", url="https://t.me/Anime_in_hindi_Request_grouppppp")
+            InlineKeyboardButton("Support", url="https://t.me/ACX_DISCUSSION"),
+            InlineKeyboardButton("Chat", url="https://t.me/ACX_NETWORK")
         ],
-        [InlineKeyboardButton("Owner 🧑🏻‍💻", url="https://t.me/SST_KAKAROT")]
+        [InlineKeyboardButton("Owner 🧑🏻‍💻", url="https://t.me/THEHYPER_ACX")]
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
     
