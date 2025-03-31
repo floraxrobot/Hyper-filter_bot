@@ -3,7 +3,7 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 import logging
 
 # Replace with your actual API token from BotFather
-API_TOKEN = '7380868862:AAE6n_0npHSPcQsAj7ar2tK4JLNQsfSuIVk'
+API_TOKEN = '7163289613:AAETMm09AmEszvbdvSypevp-uUqkyXjN5ko'
 
 # Dictionary to store filters in the format:
 # {keyword: {"text": text, "link": link}}
@@ -71,7 +71,12 @@ async def reply_to_keyword(update: Update, context: ContextTypes.DEFAULT_TYPE) -
             reply_text = f'<a href="{data["link"]}">{data["text"]}</a>'
             button = InlineKeyboardButton("Download", url=data["link"])
             reply_markup = InlineKeyboardMarkup([[button]])
-            await update.message.reply_text(reply_text, reply_markup=reply_markup, parse_mode="HTML")
+            await update.message.reply_text(
+                reply_text,
+                reply_markup=reply_markup,
+                parse_mode="HTML",
+                disable_web_page_preview=True  # Disable link preview here
+            )
             break  # Only respond to the first matching keyword
 
 def main():
