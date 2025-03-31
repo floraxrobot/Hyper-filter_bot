@@ -1,7 +1,7 @@
 import requests
 import time
 
-url = "koyeb public url"
+url = "https://net-delia-originalsrijan69-10e42d45.koyeb.app/"
 
 while True:
     try:
