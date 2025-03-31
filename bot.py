@@ -3,7 +3,7 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 import logging
 
 # Replace 'YOUR_API_TOKEN' with the actual token from BotFather
-API_TOKEN = '7163289613:AAEZaSCRfujwcA387HiLx3E50EymwTi4amI'
+API_TOKEN = '7163289613:AAETMm09AmEszvbdvSypevp-uUqkyXjN5ko'
 
 # Dictionary to store media filters in the format: {keyword: {"image": file_id, "title": title, "links": [(label, url), ...]}}
 media_filters = {}
