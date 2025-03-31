@@ -3,7 +3,7 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 import logging
 
 # Replace with your actual API token from BotFather
-API_TOKEN = '7380868862:AAEK3dzX9_Q9v2bgi7EVrpwc-NA81lfAJ6o'
+API_TOKEN = '7695117514:AAHdkWRMbRPob5DIH1Iks4OChJu_f1QG8ng'
 
 # Dictionary to store filters in the format:
 # {keyword: {"text": text, "link": link}}
@@ -32,7 +32,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Row 2: Support, Channel
     # Row 3: Owner
     buttons = [
-        [InlineKeyboardButton("Lᴇᴛ's Rᴏʟʟ Bᴀʙʏ", url="http://t.me/HYPERXMUSICROBOT?startgroup=botstart")],
+        [InlineKeyboardButton("Lᴇᴛ's Rᴏʟʟ Bᴀʙʏ", url="http://t.me/GFilterBotRobot?startgroup=botstart")],
         [
             InlineKeyboardButton("Sᴜᴘᴘᴏʀᴛ Cʜᴀᴛ", url="https://t.me/ACX_DISCUSSION"),
             InlineKeyboardButton("Sᴜᴘᴘᴏʀᴛ ᴄʜᴀɴɴᴇʟ", url="https://t.me/ACX_NETWORK")
