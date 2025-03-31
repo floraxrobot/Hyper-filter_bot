@@ -38,7 +38,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     caption = (
         f"𝖧i {mention}, 𝖭𝗂𝖼𝖾 𝗍𝗈 𝗆𝖾𝖾𝗍 𝗒𝗈𝗎 🙌\n"
         "I ᴀᴍ ᴀ ᴄᴜsᴛᴏᴍ ʙᴏᴛ ᴍᴀᴅᴇ ғᴏʀ ᴛᴇᴀᴍ ACXᴀɴɪᴍᴇ...\n"
-        'Bʏ <a href="https://t.me/ACX_NETWORK">ACX Nᴇᴛᴡᴏʀᴋ</a> [🇮🇳]'
+        'Bʏ <a href="https://t.me/ACX_NETWORK">ACX Nᴇᴛᴡᴏʀᴋ [🇮🇳]</a>'
     )
     
     # Inline buttons arranged in three rows:
