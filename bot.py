@@ -24,25 +24,24 @@ logger = logging.getLogger(__name__)
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    # Save user in mongodb if not already saved
-    user_id = update.effective_user.id
-    users_collection.update_one({"user_id": user_id}, {"$setOnInsert": {"user_id": user_id}}, upsert=True)
+    # Add user to database if not already present
+    user = update.effective_user
+    users_collection.update_one(
+        {"user_id": user.id},
+        {"$setOnInsert": {"user_id": user.id}},
+        upsert=True
+    )
 
-    image_url = "https://graph.org/file/8f0ad8a23e1ac2a980f4e-3d25103b6a7fcf256b.jpg"  # Replace with your image URL
+    image_url = "https://your-image-url.example.com/your-image.jpg"  # Replace with your image URL
+    # Create a mention by hyperlinking the user's full name to their Telegram profile.
+    mention = f'<a href="tg://user?id={user.id}">{user.full_name}</a>'
     caption = (
-        "🔰 Hello! I'm a ACX keyword filter bot.!!\n\n"
-        "Use /setfilter to set a filter based on an image and links.\n"
-        "Here's how:\n"
-        "- Send /setfilter Keyword - Title - Link\n"
-        "- Send the keyword in chat\n"
-        "- I will provide the link with the keyword.\n"
-        "Once set, you can use /listfilters & /removefilter to manage."
+        f"𝖧i {mention}, 𝖭𝗂𝖼𝖾 𝗍𝗈 𝗆𝖾𝖾𝗍 𝗒𝗈𝗎 🙌\n"
+        "I ᴀᴍ ᴀ ᴄᴜsᴛᴏᴍ ʙᴏᴛ ᴍᴀᴅᴇ ғᴏʀ ᴛᴇᴀᴍ ACXᴀɴɪᴍᴇ...\n"
+        'Bʏ <a href="https://t.me/ACX_NETWORK">ACX Nᴇᴛᴡᴏʀᴋ</a> [🇮🇳]'
     )
     
-    # Inline buttons:
-    # Row 1: Let's roll
-    # Row 2: Support Chat, Support channel
-    # Row 3: Owner
+    # Inline buttons arranged in three rows:
     buttons = [
         [InlineKeyboardButton("Lᴇᴛ's Rᴏʟʟ Bᴀʙʏ", url="http://t.me/GFilterBotRobot?startgroup=botstart")],
         [
