@@ -1,12 +1,13 @@
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes, ConversationHandler
+from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 import logging
 
-# Replace 'YOUR_API_TOKEN' with the actual token from BotFather
-API_TOKEN = '7163289613:AAETMm09AmEszvbdvSypevp-uUqkyXjN5ko'
+# Replace with your actual API token from BotFather
+API_TOKEN = '7380868862:AAE6n_0npHSPcQsAj7ar2tK4JLNQsfSuIVk'
 
-# Dictionary to store media filters in the format: {keyword: {"image": file_id, "title": title, "links": [(label, url), ...]}}
-media_filters = {}
+# Dictionary to store filters in the format:
+# {keyword: {"text": text, "link": link}}
+filters_map = {}
 
 # Configure logging
 logging.basicConfig(
@@ -14,136 +15,73 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Conversation states
-WAITING_FOR_TITLE, WAITING_FOR_LINKS = range(2)
-
-# Start command with image and inline buttons
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    image_url = "https://i.ibb.co/NS8hdGZ/file-1157.jpg"  # Replace with your image URL
-    caption = (
-        "Hello! I'm a media-based keyword filter bot.👋🏻\n\nUse /setmedia to set a filter based on an image and "
-        "links.\nHere's how:\n"
-        "- Reply to an image with /setmedia\n"
-        "- Provide a title when prompted\n"
-        "- Provide labeled links in the format `Label - Link, Label - Link` when prompted\n"
-        "Once set, typing the keyword will display the image, title, and links."
+    message = (
+        "Hello! I'm a simple filter bot.\n\n"
+        "Use the command /setfilter in the following format:\n"
+        "/setfilter Keyword - Text - Link\n\n"
+        "When someone sends a message that contains the keyword, I'll respond with the Text "
+        "hyperlinked to the provided Link and include a 'Download' button."
     )
-    
-    # Inline buttons setup
-    buttons = [
-        [InlineKeyboardButton("➕Let's Roll ➕", url="http://t.me/HYPERXMUSICROBOT?startgroup=botstart")],
-        [
-            InlineKeyboardButton("Support", url="https://t.me/ACX_DISCUSSION"),
-            InlineKeyboardButton("Chat", url="https://t.me/ACX_NETWORK")
-        ],
-        [InlineKeyboardButton("Owner 🧑🏻‍💻", url="https://t.me/THEHYPER_ACX")]
-    ]
-    reply_markup = InlineKeyboardMarkup(buttons)
-    
-    await update.message.reply_photo(
-        photo=image_url,
-        caption=caption,
-        reply_markup=reply_markup
-    )
+    await update.message.reply_text(message)
 
-# Set a new media filter
-async def set_media(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    if update.message.reply_to_message and update.message.reply_to_message.photo:
-        context.user_data["image"] = update.message.reply_to_message.photo[-1].file_id
-        await update.message.reply_text("Please provide a title for the image:")
-        return WAITING_FOR_TITLE
-    else:
-        await update.message.reply_text("Please reply to an image with /setmedia.")
-        return ConversationHandler.END
-
-# Receive title
-async def receive_title(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    context.user_data["title"] = update.message.text
-    await update.message.reply_text("Now, please provide the links in the format `Label - Link, Label - Link`.")
-    return WAITING_FOR_LINKS
-
-# Receive links and save the filter
-async def receive_links(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    links_text = update.message.text
-    links = []
+async def set_filter(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    # Expecting format: /setfilter Keyword - Text - Link
+    args = update.message.text.split(" ", 1)
+    if len(args) < 2:
+        await update.message.reply_text("Usage: /setfilter Keyword - Text - Link")
+        return
 
     try:
-        for item in links_text.split(","):
-            label, url = item.split(" - ", 1)
-            links.append((label.strip(), url.strip()))
-        
-        keyword = context.user_data["title"].lower()
-        media_filters[keyword] = {
-            "image": context.user_data["image"],
-            "title": context.user_data["title"],
-            "links": links
-        }
-        
-        await update.message.reply_text(f"Media filter set for keyword '{context.user_data['title']}'!")
-        return ConversationHandler.END
+        # Split based on " - " exactly into 3 parts: Keyword, Text, and Link
+        keyword, text, link = [part.strip() for part in args[1].split(" - ", 2)]
     except ValueError:
-        await update.message.reply_text("Please use the correct format: Label - Link, Label - Link")
-        return WAITING_FOR_LINKS
+        await update.message.reply_text("Incorrect format. Please use: /setfilter Keyword - Text - Link")
+        return
 
-# Remove a filter
+    keyword_lower = keyword.lower()
+    filters_map[keyword_lower] = {"text": text, "link": link}
+    await update.message.reply_text(f"Filter set for keyword '{keyword_lower}'.")
+
 async def remove_filter(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    try:
-        # Get the keyword argument, lowercase it and strip extra spaces
-        keyword = " ".join(context.args).strip().lower()  # Join in case keyword has spaces
-
-        if keyword in media_filters:
-            del media_filters[keyword]
-            await update.message.reply_text(f"Filter removed for keyword '{keyword}'.")
-        else:
-            await update.message.reply_text("This filter does not exist.")
-    except IndexError:
+    if not context.args:
         await update.message.reply_text("Usage: /removefilter <keyword>")
+        return
 
-# List all filters
+    keyword = " ".join(context.args).strip().lower()
+    if keyword in filters_map:
+        del filters_map[keyword]
+        await update.message.reply_text(f"Filter removed for keyword '{keyword}'.")
+    else:
+        await update.message.reply_text("This filter does not exist.")
+
 async def list_filters(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    if media_filters:
-        filters_list = "\n".join([f"{data['title']}" for data in media_filters.values()])
-        await update.message.reply_text(f"Current filters are -\n{filters_list}")
+    if filters_map:
+        filters_list = "\n".join([f"{k}: {data['text']}" for k, data in filters_map.items()])
+        await update.message.reply_text(f"Current filters:\n{filters_list}")
     else:
         await update.message.reply_text("No filters have been set.")
 
-# Respond to a keyword with an image, title, and links
 async def reply_to_keyword(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     message_text = update.message.text.lower()
-    for keyword, data in media_filters.items():
+    # Check each filter keyword; if found, respond with its text hyperlinked and a button.
+    for keyword, data in filters_map.items():
         if keyword in message_text:
-            formatted_caption = f"🔰 {data['title']} ⤵️⤵️"
-            buttons = [[InlineKeyboardButton(text=label, url=url)] for label, url in data["links"]]
-            reply_markup = InlineKeyboardMarkup(buttons)
-            await update.message.reply_photo(
-                photo=data["image"],
-                caption=formatted_caption,
-                reply_markup=reply_markup
-            )
-            break
+            # Hyperlink the text using HTML formatting
+            reply_text = f'<a href="{data["link"]}">{data["text"]}</a>'
+            button = InlineKeyboardButton("Download", url=data["link"])
+            reply_markup = InlineKeyboardMarkup([[button]])
+            await update.message.reply_text(reply_text, reply_markup=reply_markup, parse_mode="HTML")
+            break  # Only respond to the first matching keyword
 
-# Cancel command for conversation handler
-async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    await update.message.reply_text("Operation cancelled.")
-    return ConversationHandler.END
-
-# Main function to set up the bot
 def main():
     application = Application.builder().token(API_TOKEN).build()
 
-    conv_handler = ConversationHandler(
-        entry_points=[CommandHandler("setmedia", set_media)],
-        states={
-            WAITING_FOR_TITLE: [MessageHandler(filters.TEXT & ~filters.COMMAND, receive_title)],
-            WAITING_FOR_LINKS: [MessageHandler(filters.TEXT & ~filters.COMMAND, receive_links)],
-        },
-        fallbacks=[CommandHandler("cancel", cancel)]
-    )
-
     application.add_handler(CommandHandler("start", start))
-    application.add_handler(conv_handler)
+    application.add_handler(CommandHandler("setfilter", set_filter))
     application.add_handler(CommandHandler("removefilter", remove_filter))
     application.add_handler(CommandHandler("listfilters", list_filters))
+    # Replies to any text messages that are not commands
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, reply_to_keyword))
 
     application.run_polling()
