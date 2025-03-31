@@ -3,7 +3,7 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 import logging
 
 # Replace with your actual API token from BotFather
-API_TOKEN = '7695117514:AAHdkWRMbRPob5DIH1Iks4OChJu_f1QG8ng'
+API_TOKEN = '7380868862:AAEK3dzX9_Q9v2bgi7EVrpwc-NA81lfAJ6o'
 
 # Dictionary to store filters in the format:
 # {keyword: {"text": text, "link": link}}
