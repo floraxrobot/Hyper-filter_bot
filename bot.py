@@ -4,7 +4,7 @@ import logging
 from pymongo import MongoClient
 
 # Replace with your actual API token from BotFather
-API_TOKEN = '7380868862:AAEK3dzX9_Q9v2bgi7EVrpwc-NA81lfAJ6o'
+API_TOKEN = '7380868862:AAFrjT0wPB7pFrPfVsWdAcH2SqTviR5Psvs'
 
 # MongoDB configuration – replace with your own MongoDB URI if needed
 MONGO_URI = "mongodb+srv://bornhyper1:Bornhyper5911@cluster0.gmvpm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"  # or your MongoDB connection string
