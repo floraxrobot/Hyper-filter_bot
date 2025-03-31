@@ -32,12 +32,12 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Row 2: Support, Channel
     # Row 3: Owner
     buttons = [
-        [InlineKeyboardButton("Let's roll", url="http://t.me/HYPERXMUSICROBOT?startgroup=botstart")],
+        [InlineKeyboardButton("Lᴇᴛ's Rᴏʟʟ Bᴀʙʏ", url="http://t.me/HYPERXMUSICROBOT?startgroup=botstart")],
         [
-            InlineKeyboardButton("Support", url="https://t.me/ACX_DISCUSSION"),
-            InlineKeyboardButton("Channel", url="https://t.me/ACX_NETWORK")
+            InlineKeyboardButton("Sᴜᴘᴘᴏʀᴛ Cʜᴀᴛ", url="https://t.me/ACX_DISCUSSION"),
+            InlineKeyboardButton("Sᴜᴘᴘᴏʀᴛ ᴄʜᴀɴɴᴇʟ", url="https://t.me/ACX_NETWORK")
         ],
-        [InlineKeyboardButton("Owner", url="https://t.me/THEHYPER_ACX")]
+        [InlineKeyboardButton("Oᴡɴᴇʀ", url="https://t.me/THEHYPER_ACX")]
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
     
@@ -92,7 +92,7 @@ async def reply_to_keyword(update: Update, context: ContextTypes.DEFAULT_TYPE) -
         if keyword in message_text:
             # Hyperlink the text using HTML formatting
             reply_text = f'<a href="{data["link"]}">{data["text"]}</a>'
-            button = InlineKeyboardButton("Download", url=data["link"])
+            button = InlineKeyboardButton("🔰 Wᴀᴛᴄʜ Nᴏᴡ 🔰", url=data["link"])
             reply_markup = InlineKeyboardMarkup([[button]])
             await update.message.reply_text(
                 reply_text,
