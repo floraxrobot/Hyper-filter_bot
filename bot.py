@@ -132,25 +132,33 @@ async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         await update.message.reply_text("You are not authorized to use this command.")
         return
 
-    if not context.args:
-        await update.message.reply_text("Usage: /broadcast <message>")
+    # Ensure the broadcast command is used as a reply.
+    if not update.message.reply_to_message:
+        await update.message.reply_text("Please reply to the message you want to broadcast.")
         return
 
-    broadcast_message = update.message.text.split(" ", 1)[1]
+    from_chat_id = update.message.reply_to_message.chat_id
+    message_id = update.message.reply_to_message.message_id
+
     users = list(users_collection.find())
     success = 0
     failure = 0
 
     for user in users:
         try:
-            await context.bot.send_message(chat_id=user["user_id"], text=broadcast_message)
+            await context.bot.forward_message(
+                chat_id=user["user_id"],
+                from_chat_id=from_chat_id,
+                message_id=message_id
+            )
             success += 1
         except Exception as e:
-            logger.error(f"Failed to send message to {user['user_id']}: {e}")
+            logger.error(f"Failed to forward message to {user['user_id']}: {e}")
             failure += 1
 
-    await update.message.reply_text(f"Broadcast complete.\nSuccess: {success}\nFailure: {failure}")
-
+    await update.message.reply_text(
+        f"Broadcast complete.\nSuccess: {success}\nFailure: {failure}"
+    )
 
 async def reply_to_keyword(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     message_text = update.message.text.lower()
