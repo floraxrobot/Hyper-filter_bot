@@ -4,7 +4,7 @@ import logging
 from pymongo import MongoClient
 
 # Replace with your actual API token from BotFather
-API_TOKEN = '7380868862:AAFrjT0wPB7pFrPfVsWdAcH2SqTviR5Psvs'
+API_TOKEN = '7704955106:AAEoBlI0ZqIasVkBXmaVnU8cOObOGO3HmXI'
 
 # MongoDB configuration – replace with your own MongoDB URI if needed
 MONGO_URI = "mongodb+srv://bornhyper1:Bornhyper5911@cluster0.gmvpm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"  # or your MongoDB connection string
@@ -32,7 +32,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         upsert=True
     )
     
-    image_url = "https://graph.org/file/8f0ad8a23e1ac2a980f4e-3d25103b6a7fcf256b.jpg"  # Replace with your image URL
+    image_url = "https://files.catbox.moe/1c25gl.jpg"  # Replace with your image URL
     # Use the requested link scheme for the user mention:
     mention = f'<a href="tg://openmessage?user_id={user.id}">{user.full_name}</a>'
     caption = (
