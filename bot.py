@@ -32,7 +32,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         upsert=True
     )
     
-    image_url = "https://your-image-url.example.com/your-image.jpg"  # Replace with your image URL
+    image_url = "https://graph.org/file/8f0ad8a23e1ac2a980f4e-3d25103b6a7fcf256b.jpg"  # Replace with your image URL
     # Use the requested link scheme for the user mention:
     mention = f'<a href="tg://openmessage?user_id={user.id}">{user.full_name}</a>'
     caption = (
