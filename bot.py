@@ -16,14 +16,37 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    message = (
-        "Hello! I'm a simple filter bot.\n\n"
-        "Use the command /setfilter in the following format:\n"
-        "/setfilter Keyword - Text - Link\n\n"
-        "When someone sends a message that contains the keyword, I'll respond with the Text "
-        "hyperlinked to the provided Link and include a 'Download' button."
+    image_url = "https://graph.org/file/8f0ad8a23e1ac2a980f4e-3d25103b6a7fcf256b.jpg"  # Replace with your image URL
+    caption = (
+        "🔰 Hello! I'm a ACX keyword filter bot.!!\n\n"
+        "Use /setfilter to set a filter based on an image and links.\n"
+        "Here's how:\n"
+        "- Send /setfilter Keyword - Title - Link\n"
+        "- Send the keyword in chat\n"
+        "- I will provide the link with the keyword.\n"
+        "Once set, you can use /listfilters & /removefilter to manage."
     )
-    await update.message.reply_text(message)
+    
+    # Inline buttons:
+    # Row 1: Let's roll
+    # Row 2: Support, Channel
+    # Row 3: Owner
+    buttons = [
+        [InlineKeyboardButton("Let's roll", url="http://t.me/HYPERXMUSICROBOT?startgroup=botstart")],
+        [
+            InlineKeyboardButton("Support", url="https://t.me/ACX_DISCUSSION"),
+            InlineKeyboardButton("Channel", url="https://t.me/ACX_NETWORK")
+        ],
+        [InlineKeyboardButton("Owner", url="https://t.me/THEHYPER_ACX")]
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+    
+    await update.message.reply_photo(
+        photo=image_url,
+        caption=caption,
+        parse_mode="HTML",
+        reply_markup=reply_markup
+    )
 
 async def set_filter(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Expecting format: /setfilter Keyword - Text - Link
