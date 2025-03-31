@@ -31,10 +31,10 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         {"$setOnInsert": {"user_id": user.id}},
         upsert=True
     )
-
+    
     image_url = "https://your-image-url.example.com/your-image.jpg"  # Replace with your image URL
-    # Create a mention by hyperlinking the user's full name to their Telegram profile.
-    mention = f'<a href="tg://user?id={user.id}">{user.full_name}</a>'
+    # Use the requested link scheme for the user mention:
+    mention = f'<a href="tg://openmessage?user_id={user.id}">{user.full_name}</a>'
     caption = (
         f"𝖧i {mention}, 𝖭𝗂𝖼𝖾 𝗍𝗈 𝗆𝖾𝖾𝗍 𝗒𝗈𝗎 🙌\n"
         "I ᴀᴍ ᴀ ᴄᴜsᴛᴏᴍ ʙᴏᴛ ᴍᴀᴅᴇ ғᴏʀ ᴛᴇᴀᴍ ACXᴀɴɪᴍᴇ...\n"
@@ -56,8 +56,10 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         photo=image_url,
         caption=caption,
         parse_mode="HTML",
-        reply_markup=reply_markup
-    )
+        reply_markup=reply_markup,
+        disable_web_page_preview=True
+    ) 
+    
 
 
 async def set_filter(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
