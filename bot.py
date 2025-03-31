@@ -56,10 +56,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         photo=image_url,
         caption=caption,
         parse_mode="HTML",
-        reply_markup=reply_markup,
-        disable_web_page_preview=True
-    ) 
-    
+        reply_markup=reply_markup
+    )
 
 
 async def set_filter(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
